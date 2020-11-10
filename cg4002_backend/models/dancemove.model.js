@@ -7,6 +7,25 @@ const danceMoveSchema = new Schema({
         type: String,
         required: true,
     },
+
+    position: {
+        type: String,
+        require: true,
+    },
+
+    user1:{
+        type: String,
+        require: true,
+    },
+    user2:{
+        type: String,
+        require: true,
+    },
+    user3:{
+        type: String,
+        require: true,
+    }
+
 }, {
     timestamps: true,
 });
