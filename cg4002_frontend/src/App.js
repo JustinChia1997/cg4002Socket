@@ -2,122 +2,174 @@ import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import io from 'socket.io-client';
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
+import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 
 
-class App extends React.Component{
-  state={
-    danceMoveList:[], //set danceMoveList as empty array
-    positionsList:[],
-    user1List:[],
-    user2List:[],
-    user3List:[],
+class App extends React.Component {
+  state = {
+    danceMoveList: [], //set danceMoveList as empty array
+    positionsList: [],
+    user1List: [],
+    user2List: [],
+    user3List: [],
   }
 
-componentDidMount = async () => {
-  // Initialize socket.io connection
-  const socket = io(`localhost:5000/api/server`);
+  componentDidMount = async () => {
+    // Initialize socket.io connection
+    const socket = io(`localhost:5000/api/server`);
 
-  //newDanceMove event; get "moveName" that is inserted;
-  //updating the tempDanceMoves array
-  socket.on("newDanceMove", ({moveName, positions, user1, user2, user3})=>{
-    alert(moveName + " " + positions);
-    let tempDanceMoves = this.state.danceMoveList;
-    tempDanceMoves.push(moveName);
+    //newDanceMove event; get "moveName" that is inserted;
+    //updating the tempDanceMoves array
+    socket.on("newDanceMove", ({ moveName, positions, user1, user2, user3 }) => {
+      //alert(moveName + " " + positions);
+      let tempDanceMoves = this.state.danceMoveList;
+      tempDanceMoves.push(moveName);
 
-    let tempPositions = this.state.positionsList;
-    tempPositions.push(positions);
+      let tempPositions = this.state.positionsList;
+      tempPositions.push(positions);
 
-    let tempUser1 = this.state.user1List;
-    tempUser1.push(user1);
-    
-    let tempUser2 = this.state.user2List;
-    tempUser2.push(user2);
+      let tempUser1 = this.state.user1List;
+      tempUser1.push(user1);
 
-    let tempUser3 = this.state.user3List;
-    tempUser3.push(user3);
-    
-    console.log(`${tempDanceMoves}`);
-    console.log(`${tempPositions}`);
-    console.log(`${tempUser1}`);
-    console.log(`${tempUser2}`);
-    console.log(`${tempUser3}`);
-    this.setState({danceMoveList : tempDanceMoves}); //updates the array
-    this.setState({positionsList : tempPositions});
-    this.setState({user1List : tempUser1});
-    this.setState({user2List : tempUser2});
-    this.setState({user3List : tempUser3});
-  });
-}
+      let tempUser2 = this.state.user2List;
+      tempUser2.push(user2);
 
+      let tempUser3 = this.state.user3List;
+      tempUser3.push(user3);
 
-  render(){
+      console.log(`${tempDanceMoves}`);
+      console.log(`${tempPositions}`);
+      console.log(`${tempUser1}`);
+      console.log(`${tempUser2}`);
+      console.log(`${tempUser3}`);
+      this.setState({ danceMoveList: tempDanceMoves }); //updates the array
+      this.setState({ positionsList: tempPositions });
+      this.setState({ user1List: tempUser1 });
+      this.setState({ user2List: tempUser2 });
+      this.setState({ user3List: tempUser3 });
+    });
+  }
+  // alert-primary d-inline-flex
+
+  render() {
     return (
-      <div>
-    <div class="text-center alert alert-primary">
-        <h3>Current Move Prediction:</h3>
-    </div>
-    <div class="text-center container">
-        <h1 >{`${this.state.danceMoveList[0] ? 
-          this.state.danceMoveList[this.state.danceMoveList.length - 1] : 'waiting for move'}`} </h1>
-    </div>
+      <div class="full">
+        <div class="row">
+          <div class="col">
 
-    {/* POSITIONS DISPLAY */}
-    <div class="text-center alert alert-primary">
-        <h3>Positions:</h3>
-    </div>
-    <div class="text-center">
-    <h1 >{`${this.state.positionsList[0] ? 
-          this.state.positionsList[this.state.positionsList.length - 1] : 'waiting for pos'}`} </h1>
-    </div>
+            <div class="round mx-auto text-white">
+              <h3>Current Move Prediction</h3>
+            </div>
+            <div class="bottom mx-auto">
+              <h3 >{`${this.state.danceMoveList[0] ?
+                this.state.danceMoveList[this.state.danceMoveList.length - 1] : 'waiting for move...'}`} </h3>
+            </div>
+          </div>
 
-    {/* MOVES BREAKDOWN */}
-    <div class="text-center alert alert-primary">
-        <h3>Moves Record</h3>
-    </div>
-
-    <div class="container">
-        <div class="row text-center">
-            <div class="col">
-                <h3>User 1</h3>
+          {/* POSITIONS DISPLAY */}
+          <div class="col">
+            <div class="round mx-auto text-white">
+              <h3>Positions</h3>
             </div>
-            <div class="col">
-                <h3>User 2</h3>
-            </div>
-            <div class="col">
-                <h3>User 3</h3>
-            </div>
-        </div>
-    </div>
-        <div class="container">
-          <div class="row text-center">
-            <div class="col">
-              <div class="text-center">
-                {this.state.user1List.map((name, index) => {
-                  return <p>
-                    {index + 1}. {name}
-                  </p>
-                })}</div>
-            </div>
-            <div class="col">
-              <div class="text-center">
-                {this.state.user2List.map((name, index) => {
-                  return <p>
-                    {index + 1}. {name}
-                  </p>
-                })}</div>
-            </div>
-            <div class="col">
-              <div class="text-center">
-                {this.state.user3List.map((name, index) => {
-                  return <p>
-                    {index + 1}. {name}
-                  </p>
-                })}</div>
+            <div class="bottom mx-auto">
+              <h3>{`${this.state.positionsList[0] ?
+                this.state.positionsList[this.state.positionsList.length - 1] : 'waiting for pos...'}`} </h3>
             </div>
           </div>
         </div>
-      </div>
+
+        {/* MOVES BREAKDOWN */}
+        <div class="space"></div>
+
+        <div class="roundlong header text-white">
+          <h3>Moves Record</h3>
+        </div>
+        <p></p>
+        <div class="container">
+          <div class="row text-center roundlong subheader">
+            <div class="col">
+              <h3>Dancer 1</h3>
+            </div>
+            <div class="col">
+              <h3>Dancer 2</h3>
+            </div>
+            <div class="col">
+              <h3>Dancer 3</h3>
+            </div>
+          </div>
+        </div> <p></p>
+
+        <div class="container">
+          <div class="row text-center">
+            <div class="col">
+              <div class="bottomlong">
+                <h3>{`${this.state.danceMoveList[0] ?
+                  this.state.user1List[this.state.user1List.length - 1] : '-'}`}
+                </h3>
+              </div>
+            </div>
+            <div class="col">
+              <div class="bottomlong">
+                <h3>{`${this.state.danceMoveList[0] ?
+                  this.state.user2List[this.state.user2List.length - 1] : '-'}`}
+                </h3>
+              </div>
+            </div>
+            <div class="col">
+              <div class="bottomlong">
+                <h3>{`${this.state.danceMoveList[0] ?
+                  this.state.user3List[this.state.user3List.length - 1] : '-'}`}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div> <p></p>
+        <div class="container">
+          <div class="row text-center bottomlong">
+            <div class="col">
+
+            {/* <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-bordered table-striped mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Move</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">#</th>
+                    <td></td>
+                  </tr>
+                </tbody>
+      </table></div> */}
+                <div class="text-center text-white">
+                  {this.state.user1List.map((name, index) => {
+                    return <p>
+                      {index + 1}. {name}
+                    </p>
+                  })}</div>
+            </div>
+              <div class="col">
+                <div class="text-center text-white">
+                  {this.state.user2List.map((name, index) => {
+                    return <p>
+                      {index + 1}. {name}
+                    </p>
+                  })}</div>
+              </div>
+              <div class="col">
+                <div class="text-center text-white">
+                  {this.state.user3List.map((name, index) => {
+                    return <p>
+                      {index + 1}. {name}
+                    </p>
+                  })}</div>
+              </div>
+            </div>
+          </div>
+        </div>
     );
   }
 }

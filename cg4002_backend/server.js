@@ -53,6 +53,7 @@ router.route('/dancemove').get((req,res) => {
  */
 app.post('/dancemove/add',(req,res) => {
     const tempMove = req.body.data; //gets new dance move "1 2 3|move|0.12|hair rocket hair"
+    console.log(tempMove);
     const splitNewMove = tempMove.split('|');
 
     const testPositions = splitNewMove[0].split('#')[1]; //gets positions
